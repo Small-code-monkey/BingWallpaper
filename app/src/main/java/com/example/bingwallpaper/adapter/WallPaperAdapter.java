@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.bingwallpaper.R;
 import com.example.bingwallpaper.baen.WallPaperBean;
 import com.example.bingwallpaper.base.App;
@@ -25,10 +26,10 @@ import java.util.List;
  * @author
  */
 public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.ViewHolder>
-        implements View.OnClickListener {
+        implements View.OnClickListener, View.OnLongClickListener {
     private Context context;
     private List<WallPaperBean.DataBean.ItemBean> wallPaperBeans;
-    private RvListener reViewOnClickListener;
+    private RvListener rvListener;
 
     public WallPaperAdapter(Context context, List<WallPaperBean.DataBean.ItemBean> wallPaperBeans) {
         this.context = context;
@@ -40,6 +41,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.View
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_wallpaper, null);
         view.setOnClickListener(this);
+        view.setOnLongClickListener(this);
         return new ViewHolder(view);
     }
 
@@ -47,6 +49,8 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Glide.with(context).load(App.httpUrl + wallPaperBeans.get(position).getUrl())
                 .placeholder(R.mipmap.timg)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .error(R.mipmap.timg)
                 .into(holder.imageView);
         holder.textView.setText(wallPaperBeans.get(position).getCopyright());
         holder.itemView.setTag(position);
@@ -55,6 +59,14 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.View
     @Override
     public int getItemCount() {
         return wallPaperBeans.size();
+    }
+
+    @Override
+    public boolean onLongClick(View view) {
+        if (rvListener != null) {
+            rvListener.reViewOnLongListener(view, (Integer) view.getTag());
+        }
+        return false;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -70,8 +82,8 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.View
 
     @Override
     public void onClick(View view) {
-        if (reViewOnClickListener != null) {
-            reViewOnClickListener.reViewOnClickListener(view, (Integer) view.getTag());
+        if (rvListener != null) {
+            rvListener.reViewOnClickListener(view, (Integer) view.getTag());
         }
     }
 
@@ -81,6 +93,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.View
      * @param viewListener
      */
     public void setOnclick(RvListener viewListener) {
-        this.reViewOnClickListener = viewListener;
+        this.rvListener = viewListener;
     }
+
 }

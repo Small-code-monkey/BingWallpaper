@@ -17,4 +17,12 @@ public interface RvListener {
      * @param position
      */
     void reViewOnClickListener(View view, int position);
+
+    /**
+     * 长按事件
+     *
+     * @param view
+     * @param position
+     */
+    void reViewOnLongListener(View view, int position);
 }

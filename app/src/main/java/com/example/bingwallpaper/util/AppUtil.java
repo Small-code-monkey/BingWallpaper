@@ -6,6 +6,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.example.bingwallpaper.R;
 
 
@@ -64,4 +66,27 @@ public class AppUtil {
     public static boolean isObject(Object object) {
         return null != object;
     }
+
+    /**
+     * 提示弹框
+     *
+     * @param context
+     * @param strings
+     */
+    public static void showDialog(Context context, String[] strings, DialogInterface anInterface) {
+        new AlertDialog.Builder(context)
+                .setItems(strings, (dialogInterface, i) -> {
+                    anInterface.dialogInter();
+                    dialogInterface.dismiss();
+                })
+                .show();
+    }
+
+    public interface DialogInterface {
+        /**
+         * 响应dialog
+         */
+        void dialogInter();
+    }
+
 }

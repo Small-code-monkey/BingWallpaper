@@ -3,7 +3,7 @@ package com.example.bingwallpaper.base;
 import android.content.Context;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 /**
  * 基类Activity
@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
  *
  * @author
  */
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends SwipeBackActivity {
     public Context context;
 
     @Override

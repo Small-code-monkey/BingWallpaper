@@ -2,4 +2,7 @@
     <string name="app_name">Bing壁纸</string>
     <string name="null_data">没有数据</string>
     <string name="null_intent">没有网络</string>
+    <string name="download_image">下载图片</string>
+    <string name="download_successful">下载成功</string>
+    <string name="download_failed">下载失败</string>
 </resources>

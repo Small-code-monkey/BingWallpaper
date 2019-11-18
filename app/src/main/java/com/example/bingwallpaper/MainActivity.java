@@ -1,5 +1,6 @@
 package com.example.bingwallpaper;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 
@@ -18,6 +19,8 @@ import com.example.bingwallpaper.util.AppUtil;
 
 import java.util.List;
 
+import me.imid.swipebacklayout.lib.SwipeBackLayout;
+
 /**
  * 首页
  * 2019-11-14
@@ -32,22 +35,25 @@ public class MainActivity extends BaseActivity implements
 
     private WallPaperAdapter wallPaperAdapter;
     private WallPaperPresenter wallPaperPresenter;
+    private DialogInterface dialogInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //侧滑返回
+        SwipeBackLayout backLayout = getSwipeBackLayout();
+        backLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
         initView();
         //获取数据
         onRefresh();
     }
 
     private void initView() {
-        recyclerViewMain = findViewById(R.id.recyclerView_main);
-        refreshMain = findViewById(R.id.refresh_main);
+        recyclerViewMain = (RecyclerView) findViewById(R.id.recyclerView_main);
+        refreshMain = (SwipeRefreshLayout) findViewById(R.id.refresh_main);
         refreshMain.setOnRefreshListener(this);
         recyclerViewMain.setLayoutManager(new LinearLayoutManager(this));
-
         wallPaperPresenter = new WallPaperPresenterImpl(this);
     }
 
@@ -67,6 +73,11 @@ public class MainActivity extends BaseActivity implements
         wallPaperAdapter.setOnclick(new RvListener() {
             @Override
             public void reViewOnClickListener(View view, int position) {
+
+            }
+
+            @Override
+            public void reViewOnLongListener(View view, int position) {
 
             }
         });

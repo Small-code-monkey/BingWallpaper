@@ -13,6 +13,17 @@ import java.util.List;
  */
 public class WallPaperBean implements Parcelable {
 
+    public static final Parcelable.Creator<WallPaperBean> CREATOR = new Parcelable.Creator<WallPaperBean>() {
+        @Override
+        public WallPaperBean createFromParcel(Parcel source) {
+            return new WallPaperBean(source);
+        }
+
+        @Override
+        public WallPaperBean[] newArray(int size) {
+            return new WallPaperBean[size];
+        }
+    };
     /**
      * code : 1
      * msg : ok
@@ -22,6 +33,15 @@ public class WallPaperBean implements Parcelable {
     private int code;
     private String msg;
     private DataBean data;
+
+    public WallPaperBean() {
+    }
+
+    protected WallPaperBean(Parcel in) {
+        this.code = in.readInt();
+        this.msg = in.readString();
+        this.data = in.readParcelable(DataBean.class.getClassLoader());
+    }
 
     public int getCode() {
         return code;
@@ -45,6 +65,27 @@ public class WallPaperBean implements Parcelable {
 
     public void setData(DataBean data) {
         this.data = data;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.code);
+        dest.writeString(this.msg);
+        dest.writeParcelable((Parcelable) this.data, flags);
+    }
+
+    @Override
+    public String toString() {
+        return "WallPaperBean{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
     }
 
     public static class DataBean {
@@ -81,6 +122,17 @@ public class WallPaperBean implements Parcelable {
         }
 
         public static class ItemBean implements Parcelable {
+            public static final Creator<ItemBean> CREATOR = new Creator<ItemBean>() {
+                @Override
+                public ItemBean createFromParcel(Parcel source) {
+                    return new ItemBean(source);
+                }
+
+                @Override
+                public ItemBean[] newArray(int size) {
+                    return new ItemBean[size];
+                }
+            };
             /**
              * date : 20191114
              * filename : OHR.BurgTrifels_ZH-CN1204167722_1920x1080.jpg
@@ -118,6 +170,29 @@ public class WallPaperBean implements Parcelable {
             private int downloadcount;
             private int likecount;
             private String url;
+
+            public ItemBean() {
+            }
+
+            protected ItemBean(Parcel in) {
+                this.date = in.readString();
+                this.filename = in.readString();
+                this.rmsimg = in.readParcelable(Object.class.getClassLoader());
+                this.copyright = in.readString();
+                this.title = in.readParcelable(Object.class.getClassLoader());
+                this.desc = in.readParcelable(Object.class.getClassLoader());
+                this.address = in.readParcelable(Object.class.getClassLoader());
+                this.provider = in.readParcelable(Object.class.getClassLoader());
+                this.country = in.readParcelable(Object.class.getClassLoader());
+                this.city = in.readParcelable(Object.class.getClassLoader());
+                this.longitude = in.readInt();
+                this.latitude = in.readInt();
+                this.continent = in.readParcelable(Object.class.getClassLoader());
+                this.viewcount = in.readInt();
+                this.downloadcount = in.readInt();
+                this.likecount = in.readInt();
+                this.url = in.readString();
+            }
 
             public String getDate() {
                 return date;
@@ -281,41 +356,6 @@ public class WallPaperBean implements Parcelable {
                 dest.writeString(this.url);
             }
 
-            public ItemBean() {
-            }
-
-            protected ItemBean(Parcel in) {
-                this.date = in.readString();
-                this.filename = in.readString();
-                this.rmsimg = in.readParcelable(Object.class.getClassLoader());
-                this.copyright = in.readString();
-                this.title = in.readParcelable(Object.class.getClassLoader());
-                this.desc = in.readParcelable(Object.class.getClassLoader());
-                this.address = in.readParcelable(Object.class.getClassLoader());
-                this.provider = in.readParcelable(Object.class.getClassLoader());
-                this.country = in.readParcelable(Object.class.getClassLoader());
-                this.city = in.readParcelable(Object.class.getClassLoader());
-                this.longitude = in.readInt();
-                this.latitude = in.readInt();
-                this.continent = in.readParcelable(Object.class.getClassLoader());
-                this.viewcount = in.readInt();
-                this.downloadcount = in.readInt();
-                this.likecount = in.readInt();
-                this.url = in.readString();
-            }
-
-            public static final Creator<ItemBean> CREATOR = new Creator<ItemBean>() {
-                @Override
-                public ItemBean createFromParcel(Parcel source) {
-                    return new ItemBean(source);
-                }
-
-                @Override
-                public ItemBean[] newArray(int size) {
-                    return new ItemBean[size];
-                }
-            };
-
             @Override
             public String toString() {
                 return "ItemBean{" +
@@ -339,47 +379,5 @@ public class WallPaperBean implements Parcelable {
                         '}';
             }
         }
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.code);
-        dest.writeString(this.msg);
-        dest.writeParcelable((Parcelable) this.data, flags);
-    }
-
-    public WallPaperBean() {
-    }
-
-    protected WallPaperBean(Parcel in) {
-        this.code = in.readInt();
-        this.msg = in.readString();
-        this.data = in.readParcelable(DataBean.class.getClassLoader());
-    }
-
-    public static final Parcelable.Creator<WallPaperBean> CREATOR = new Parcelable.Creator<WallPaperBean>() {
-        @Override
-        public WallPaperBean createFromParcel(Parcel source) {
-            return new WallPaperBean(source);
-        }
-
-        @Override
-        public WallPaperBean[] newArray(int size) {
-            return new WallPaperBean[size];
-        }
-    };
-
-    @Override
-    public String toString() {
-        return "WallPaperBean{" +
-                "code=" + code +
-                ", msg='" + msg + '\'' +
-                ", data=" + data +
-                '}';
     }
 }

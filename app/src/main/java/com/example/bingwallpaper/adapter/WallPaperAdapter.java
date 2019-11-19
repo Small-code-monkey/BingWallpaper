@@ -69,17 +69,6 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.View
         return false;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imageView;
-        private TextView textView;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            imageView = itemView.findViewById(R.id.imageView);
-            textView = itemView.findViewById(R.id.textView);
-        }
-    }
-
     @Override
     public void onClick(View view) {
         if (rvListener != null) {
@@ -94,6 +83,17 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.View
      */
     public void setOnclick(RvListener viewListener) {
         this.rvListener = viewListener;
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+        private ImageView imageView;
+        private TextView textView;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            imageView = itemView.findViewById(R.id.imageView);
+            textView = itemView.findViewById(R.id.textView);
+        }
     }
 
 }

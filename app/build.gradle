@@ -38,13 +38,15 @@ dependencies {
     //Gson数据解析
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     //网络请求适配器
-    implementation 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
     //Glide图片加载框架
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     //recyclerView
     implementation 'androidx.recyclerview:recyclerview:1.1.0-rc01'
-    //swiperefreshlayout
+    //swiperefreshlayout 下拉刷新
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
-    //滑动
+    //侧滑
     implementation 'me.imid.swipebacklayout.lib:library:1.1.0'
+    //骨架屏
+    implementation 'com.github.sharish:ShimmerRecyclerView:v1.3'
 }

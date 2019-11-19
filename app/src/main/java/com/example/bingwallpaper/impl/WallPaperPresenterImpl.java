@@ -38,7 +38,8 @@ public class WallPaperPresenterImpl implements WallPaperPresenter, WallPaperMode
     @Override
     public void methodData() {
         wallPaperView.startLoading();
-        wallPaperModel.getWallPaper(this);
+        wallPaperModel.getWallPaper(wallPaperView.setContext(), wallPaperView.setPageSize(),
+                wallPaperView.setPageNum(), this);
     }
 
     @Override

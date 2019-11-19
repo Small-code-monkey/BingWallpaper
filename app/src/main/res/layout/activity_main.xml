@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.cooltechworks.views.shimmer.ShimmerRecyclerView
             android:id="@+id/recyclerView_main"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

@@ -1,13 +1,16 @@
 package com.example.bingwallpaper;
 
-import android.content.DialogInterface;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.example.bingwallpaper.adapter.WallPaperAdapter;
 import com.example.bingwallpaper.baen.WallPaperBean;
 import com.example.bingwallpaper.base.BaseActivity;
@@ -30,12 +33,11 @@ import me.imid.swipebacklayout.lib.SwipeBackLayout;
 public class MainActivity extends BaseActivity implements
         SwipeRefreshLayout.OnRefreshListener, WallPaperView {
 
-    private RecyclerView recyclerViewMain;
+    private ShimmerRecyclerView recyclerViewMain;
     private SwipeRefreshLayout refreshMain;
 
-    private WallPaperAdapter wallPaperAdapter;
     private WallPaperPresenter wallPaperPresenter;
-    private DialogInterface dialogInterface;
+    private int pageNum = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     private void initView() {
-        recyclerViewMain = (RecyclerView) findViewById(R.id.recyclerView_main);
+        recyclerViewMain = (ShimmerRecyclerView) findViewById(R.id.recyclerView_main);
         refreshMain = (SwipeRefreshLayout) findViewById(R.id.refresh_main);
         refreshMain.setOnRefreshListener(this);
         recyclerViewMain.setLayoutManager(new LinearLayoutManager(this));
@@ -67,8 +69,44 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        onRefresh();
+    }
+
+    /**
+     * 获取当前Activity
+     *
+     * @return
+     */
+    @Override
+    public Context setContext() {
+        return context;
+    }
+
+    /**
+     * 设置页面壁纸数量
+     *
+     * @return
+     */
+    @Override
+    public int setPageSize() {
+        return 10;
+    }
+
+    /**
+     * 设置页面页数
+     *
+     * @return
+     */
+    @Override
+    public int setPageNum() {
+        return pageNum;
+    }
+
+    @Override
     public void getWallPaper(List<WallPaperBean.DataBean.ItemBean> dataBeans) {
-        wallPaperAdapter = new WallPaperAdapter(context, dataBeans);
+        WallPaperAdapter wallPaperAdapter = new WallPaperAdapter(context, dataBeans);
         recyclerViewMain.setAdapter(wallPaperAdapter);
         wallPaperAdapter.setOnclick(new RvListener() {
             @Override
@@ -101,5 +139,32 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void getFailure() {
         AppUtil.showToast(context, context.getString(R.string.null_data));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu1:
+                if (1 != pageNum) {
+                    pageNum--;
+                    onRefresh();
+                } else {
+                    AppUtil.showToast(context, "☞当前第一页");
+                }
+                break;
+            case R.id.menu2:
+                pageNum++;
+                onRefresh();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

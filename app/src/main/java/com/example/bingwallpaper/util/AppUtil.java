@@ -4,9 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Looper;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AlertDialog;
 
 import com.example.bingwallpaper.R;
 
@@ -29,13 +28,20 @@ public class AppUtil {
      */
     @SuppressLint("ShowToast")
     public static void showToast(Context context, String text) {
-        if (toast == null) {
-            toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
-        } else {
-            toast.setText(text);
-            toast.setDuration(Toast.LENGTH_SHORT);
+        try {
+            if (toast == null) {
+                toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+            } else {
+                toast.setText(text);
+                toast.setDuration(Toast.LENGTH_SHORT);
+            }
+            toast.show();
+        } catch (Exception e) {
+            //解决在子线程中调用Toast的异常情况处理
+            Looper.prepare();
+            Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+            Looper.loop();
         }
-        toast.show();
     }
 
     /**
@@ -65,28 +71,6 @@ public class AppUtil {
      */
     public static boolean isObject(Object object) {
         return null != object;
-    }
-
-    /**
-     * 提示弹框
-     *
-     * @param context
-     * @param strings
-     */
-    public static void showDialog(Context context, String[] strings, DialogInterface anInterface) {
-        new AlertDialog.Builder(context)
-                .setItems(strings, (dialogInterface, i) -> {
-                    anInterface.dialogInter();
-                    dialogInterface.dismiss();
-                })
-                .show();
-    }
-
-    public interface DialogInterface {
-        /**
-         * 响应dialog
-         */
-        void dialogInter();
     }
 
 }

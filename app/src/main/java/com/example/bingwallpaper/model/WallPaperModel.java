@@ -1,5 +1,7 @@
 package com.example.bingwallpaper.model;
 
+import android.content.Context;
+
 /**
  * M层
  * 2019-11-14
@@ -9,11 +11,14 @@ package com.example.bingwallpaper.model;
 public interface WallPaperModel {
 
     /**
-     * 监听数据状态
+     * 设置参数监听数据状态
      *
+     * @param context
+     * @param pageSize
+     * @param pageNum
      * @param onRetrofit
      */
-    void getWallPaper(onRetrofit onRetrofit);
+    void getWallPaper(Context context, int pageSize, int pageNum, onRetrofit onRetrofit);
 
     /**
      * 获取数据返回状态

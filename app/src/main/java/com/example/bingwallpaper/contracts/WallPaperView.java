@@ -1,5 +1,7 @@
 package com.example.bingwallpaper.contracts;
 
+import android.content.Context;
+
 import com.example.bingwallpaper.baen.WallPaperBean;
 
 import java.util.List;
@@ -11,6 +13,27 @@ import java.util.List;
  * @author
  */
 public interface WallPaperView {
+
+    /**
+     * 获取当前Activity
+     *
+     * @return
+     */
+    Context setContext();
+
+    /**
+     * 设置页面壁纸数量
+     *
+     * @return
+     */
+    int setPageSize();
+
+    /**
+     * 设置页面页数
+     *
+     * @return
+     */
+    int setPageNum();
 
     /**
      * 传递至Activity数据

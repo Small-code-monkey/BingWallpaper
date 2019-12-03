@@ -14,7 +14,7 @@ import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.example.bingwallpaper.adapter.WallPaperAdapter;
 import com.example.bingwallpaper.baen.WallPaperBean;
 import com.example.bingwallpaper.base.BaseActivity;
-import com.example.bingwallpaper.contracts.WallPaperView;
+import com.example.bingwallpaper.view.WallPaperView;
 import com.example.bingwallpaper.impl.WallPaperPresenterImpl;
 import com.example.bingwallpaper.inter.RvListener;
 import com.example.bingwallpaper.presenter.WallPaperPresenter;

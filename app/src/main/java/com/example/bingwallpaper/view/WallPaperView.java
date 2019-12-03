@@ -1,4 +1,4 @@
-package com.example.bingwallpaper.contracts;
+package com.example.bingwallpaper.view;
 
 import android.content.Context;
 

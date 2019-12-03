@@ -1,7 +1,7 @@
 package com.example.bingwallpaper.impl;
 
 import com.example.bingwallpaper.baen.WallPaperBean;
-import com.example.bingwallpaper.contracts.WallPaperView;
+import com.example.bingwallpaper.view.WallPaperView;
 import com.example.bingwallpaper.model.WallPaperModel;
 import com.example.bingwallpaper.presenter.WallPaperPresenter;
 

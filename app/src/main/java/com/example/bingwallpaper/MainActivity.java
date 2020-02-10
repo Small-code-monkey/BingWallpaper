@@ -1,28 +1,21 @@
 package com.example.bingwallpaper;
 
-import android.content.Context;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.example.bingwallpaper.adapter.WallPaperAdapter;
 import com.example.bingwallpaper.baen.WallPaperBean;
 import com.example.bingwallpaper.base.BaseActivity;
-import com.example.bingwallpaper.view.WallPaperView;
-import com.example.bingwallpaper.impl.WallPaperPresenterImpl;
-import com.example.bingwallpaper.inter.RvListener;
-import com.example.bingwallpaper.presenter.WallPaperPresenter;
+import com.example.bingwallpaper.inter.contract.MainContract;
+import com.example.bingwallpaper.inter.presenter.MainPresenter;
 import com.example.bingwallpaper.util.AppUtil;
+import com.hjq.toast.ToastUtils;
 
 import java.util.List;
-
-import me.imid.swipebacklayout.lib.SwipeBackLayout;
 
 /**
  * 首页
@@ -31,57 +24,71 @@ import me.imid.swipebacklayout.lib.SwipeBackLayout;
  * @author
  */
 public class MainActivity extends BaseActivity implements
-        SwipeRefreshLayout.OnRefreshListener, WallPaperView {
+        SwipeRefreshLayout.OnRefreshListener, MainContract.View {
 
-    private ShimmerRecyclerView recyclerViewMain;
-    private SwipeRefreshLayout refreshMain;
-
-    private WallPaperPresenter wallPaperPresenter;
     private int pageNum = 1;
+    private SwipeRefreshLayout swLayout;
+    private RecyclerView srView;
 
+    /**
+     * 初始化布局
+     *
+     * @return
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        //侧滑返回
-        SwipeBackLayout backLayout = getSwipeBackLayout();
-        backLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
-        initView();
-        //获取数据
-        onRefresh();
+    protected int getLayout() {
+        return R.layout.activity_main;
     }
 
-    private void initView() {
-        recyclerViewMain = (ShimmerRecyclerView) findViewById(R.id.recyclerView_main);
-        refreshMain = (SwipeRefreshLayout) findViewById(R.id.refresh_main);
-        refreshMain.setOnRefreshListener(this);
-        recyclerViewMain.setLayoutManager(new LinearLayoutManager(this));
-        wallPaperPresenter = new WallPaperPresenterImpl(this);
+    /**
+     * 初始化数据
+     */
+    @Override
+    protected void initData() {
+        swLayout = findViewById(R.id.sw_layout);
+        swLayout.setOnRefreshListener(this);
+        srView = findViewById(R.id.re_view);
+
+        //默认刷新获取数据
+        onRefresh();
     }
 
     @Override
     public void onRefresh() {
         if (AppUtil.isNetworkConnected(context)) {
-            wallPaperPresenter.methodData();
+            MainContract.Presenter presenter = new MainPresenter(this);
+            presenter.methodData();
         } else {
             endLoading();
+            ToastUtils.show("检查网络连接");
         }
     }
 
     @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        onRefresh();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
-    /**
-     * 获取当前Activity
-     *
-     * @return
-     */
     @Override
-    public Context setContext() {
-        return context;
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu1:
+                if (1 != pageNum) {
+                    pageNum--;
+                    onRefresh();
+                } else {
+                    ToastUtils.show("☞当前第一页");
+                }
+                break;
+            case R.id.menu2:
+                pageNum++;
+                onRefresh();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -104,67 +111,29 @@ public class MainActivity extends BaseActivity implements
         return pageNum;
     }
 
+    /**
+     * 获取结果数据
+     *
+     * @param dataBeans
+     */
     @Override
     public void getWallPaper(List<WallPaperBean.DataBean.ItemBean> dataBeans) {
-        WallPaperAdapter wallPaperAdapter = new WallPaperAdapter(context, dataBeans);
-        recyclerViewMain.setAdapter(wallPaperAdapter);
-        wallPaperAdapter.setOnclick(new RvListener() {
-            @Override
-            public void reViewOnClickListener(View view, int position) {
-
-            }
-
-            @Override
-            public void reViewOnLongListener(View view, int position) {
-
-            }
-        });
+        srView.setAdapter(new WallPaperAdapter(R.layout.item_wallpaper, dataBeans));
     }
 
+    /**
+     * 运行加载ing...
+     */
     @Override
     public void startLoading() {
-        refreshMain.setRefreshing(true);
+        swLayout.setRefreshing(true);
     }
 
+    /**
+     * 结束加载ing...
+     */
     @Override
     public void endLoading() {
-        refreshMain.setRefreshing(false);
-    }
-
-    @Override
-    public void getSuccess() {
-
-    }
-
-    @Override
-    public void getFailure() {
-        AppUtil.showToast(context, context.getString(R.string.null_data));
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu1:
-                if (1 != pageNum) {
-                    pageNum--;
-                    onRefresh();
-                } else {
-                    AppUtil.showToast(context, "☞当前第一页");
-                }
-                break;
-            case R.id.menu2:
-                pageNum++;
-                onRefresh();
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
+        swLayout.setRefreshing(false);
     }
 }

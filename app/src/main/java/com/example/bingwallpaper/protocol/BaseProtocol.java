@@ -12,7 +12,7 @@ import retrofit2.http.Query;
  *
  * @author
  */
-public interface WallPaperProtocol {
+public interface BaseProtocol {
 
     /**
      * 获取全部壁纸

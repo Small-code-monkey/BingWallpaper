@@ -46,10 +46,6 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     //recyclerView
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    //下拉刷新
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
-    //骨架屏：https://github.com/sharish/ShimmerRecyclerView
-    implementation 'com.github.sharish:ShimmerRecyclerView:v1.3'
     // 吐司工具类：https://github.com/getActivity/ToastUtils
     implementation 'com.hjq:toast:8.0'
 }

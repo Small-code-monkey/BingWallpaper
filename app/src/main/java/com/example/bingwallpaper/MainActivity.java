@@ -1,11 +1,11 @@
 package com.example.bingwallpaper;
 
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.bingwallpaper.adapter.WallPaperAdapter;
 import com.example.bingwallpaper.baen.WallPaperBean;
@@ -17,18 +17,21 @@ import com.hjq.toast.ToastUtils;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * 首页
  * 2019-11-14
  *
  * @author
  */
-public class MainActivity extends BaseActivity implements
-        SwipeRefreshLayout.OnRefreshListener, MainContract.View {
+public class MainActivity extends BaseActivity implements MainContract.View {
+
+    @BindView(R.id.re_view)
+    RecyclerView reView;
 
     private int pageNum = 1;
-    private SwipeRefreshLayout swLayout;
-    private RecyclerView srView;
 
     /**
      * 初始化布局
@@ -45,22 +48,11 @@ public class MainActivity extends BaseActivity implements
      */
     @Override
     protected void initData() {
-        swLayout = findViewById(R.id.sw_layout);
-        swLayout.setOnRefreshListener(this);
-        srView = findViewById(R.id.re_view);
-
-        //默认刷新获取数据
-        onRefresh();
-    }
-
-    @Override
-    public void onRefresh() {
         if (AppUtil.isNetworkConnected(context)) {
             MainContract.Presenter presenter = new MainPresenter(this);
             presenter.methodData();
         } else {
             endLoading();
-            ToastUtils.show("检查网络连接");
         }
     }
 
@@ -76,14 +68,14 @@ public class MainActivity extends BaseActivity implements
             case R.id.menu1:
                 if (1 != pageNum) {
                     pageNum--;
-                    onRefresh();
+                    initData();
                 } else {
                     ToastUtils.show("☞当前第一页");
                 }
                 break;
             case R.id.menu2:
                 pageNum++;
-                onRefresh();
+                initData();
                 break;
             default:
                 break;
@@ -118,7 +110,7 @@ public class MainActivity extends BaseActivity implements
      */
     @Override
     public void getWallPaper(List<WallPaperBean.DataBean.ItemBean> dataBeans) {
-        srView.setAdapter(new WallPaperAdapter(R.layout.item_wallpaper, dataBeans));
+        reView.setAdapter(new WallPaperAdapter(R.layout.item_wallpaper, dataBeans));
     }
 
     /**
@@ -126,7 +118,7 @@ public class MainActivity extends BaseActivity implements
      */
     @Override
     public void startLoading() {
-        swLayout.setRefreshing(true);
+
     }
 
     /**
@@ -134,6 +126,13 @@ public class MainActivity extends BaseActivity implements
      */
     @Override
     public void endLoading() {
-        swLayout.setRefreshing(false);
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

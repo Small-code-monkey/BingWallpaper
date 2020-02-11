@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * 基类Activity
@@ -15,18 +16,25 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseActivity extends AppCompatActivity {
     public Context context;
+    private Unbinder unbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
-        ButterKnife.bind(this);
         initActivity();
     }
 
     protected void initActivity() {
         setContentView(getLayout());
+        unbinder = ButterKnife.bind(this);
         initData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 
     /**

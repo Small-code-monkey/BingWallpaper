@@ -1,6 +1,5 @@
 package com.example.bingwallpaper;
 
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -18,7 +17,6 @@ import com.hjq.toast.ToastUtils;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 首页
@@ -118,7 +116,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
      */
     @Override
     public void startLoading() {
-
+        showLoading();
     }
 
     /**
@@ -126,13 +124,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
      */
     @Override
     public void endLoading() {
-
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+        showComplete();
     }
 }

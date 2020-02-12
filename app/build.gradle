@@ -38,13 +38,15 @@ dependencies {
     // ButterKnife 注解库：https://github.com/JakeWharton/butterknife
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+    // androidx 卡片布局
+    implementation 'androidx.cardview:cardview:1.0.0'
     //Retrofit2网络框架
     implementation 'com.squareup.retrofit2:retrofit:2.7.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.7.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava:2.7.0'
     //Glide图片加载框架
     implementation 'com.github.bumptech.glide:glide:4.10.0'
-    //recyclerView
+    //androidx recyclerView
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     // 吐司工具类：https://github.com/getActivity/ToastUtils
     implementation 'com.hjq:toast:8.0'

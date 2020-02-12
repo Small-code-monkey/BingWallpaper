@@ -4,4 +4,5 @@
     <string name="null_intent">网络连接失败</string>
     <string name="previous_page">上一页</string>
     <string name="next_page">下一页</string>
+    <string name="loading">加载中...</string>
 </resources>

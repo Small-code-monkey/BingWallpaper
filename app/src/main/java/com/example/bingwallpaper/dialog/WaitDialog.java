@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 
 import androidx.appcompat.widget.AppCompatTextView;
 
@@ -40,6 +41,9 @@ public class WaitDialog extends Dialog {
             AppCompatTextView textView = view.findViewById(R.id.tv_wait_message);
             textView.setText(text);
             textView.setVisibility(text == null ? View.GONE : View.VISIBLE);
+
+            Window window = waitDialog.getWindow();
+            window.setBackgroundDrawableResource(android.R.color.transparent);
             waitDialog.setContentView(view);
             return waitDialog;
         }

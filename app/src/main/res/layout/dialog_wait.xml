@@ -5,9 +5,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="#ffffff"
+    android:background="@android:color/transparent"
     app:cardBackgroundColor="#000000"
-    app:cardCornerRadius="10dp"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="0dp"
     tools:context=".dialog.WaitDialog">
 
     <LinearLayout

@@ -10,7 +10,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.bingwallpaper.R;
 import com.example.bingwallpaper.baen.WallPaperBean;
-import com.example.bingwallpaper.base.BaseApplication;
 
 import java.util.List;
 
@@ -41,8 +40,7 @@ public class WallPaperAdapter extends BaseQuickAdapter<WallPaperBean.DataBean.It
      */
     @Override
     protected void convert(BaseViewHolder helper, WallPaperBean.DataBean.ItemBean item) {
-        Glide.with(helper.getConvertView()).load(BaseApplication.httpUrl +
-                item.getUrl())
+        Glide.with(mContext).load("http:" + item.getUrl())
                 .placeholder(R.mipmap.timg)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .error(R.mipmap.timg)

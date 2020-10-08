@@ -3,8 +3,8 @@ package com.example.bingwallpaper;
 import androidx.annotation.NonNull;
 
 import com.example.bingwallpaper.base.BaseActivity;
-import com.example.bingwallpaper.inter.contract.MainContract;
-import com.example.bingwallpaper.inter.presenter.MainPresenter;
+import com.example.bingwallpaper.inter.contract.WarpContract;
+import com.example.bingwallpaper.inter.WarpPresenter;
 import com.example.bingwallpaper.view.WrapRecyclerView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -21,7 +21,7 @@ import butterknife.BindView;
  *
  * @author
  */
-public class MainActivity extends BaseActivity implements MainContract.View {
+public class MainActivity extends BaseActivity implements WarpContract.View {
 
     @BindView(R.id.wr_wrap)
     WrapRecyclerView wrWrap;
@@ -52,7 +52,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         wrWrap.setAdapter(wallPaperAdapter);
 
         //获取数据
-        MainContract.Presenter presenter = new MainPresenter(this);
+        WarpContract.Presenter presenter = new WarpPresenter(this);
         presenter.methodData();
 
         smWrap.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {

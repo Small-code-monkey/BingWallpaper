@@ -1,10 +1,9 @@
-package com.example.bingwallpaper.inter.model;
+package com.example.bingwallpaper.inter;
 
 import android.util.Log;
 
 import com.example.bingwallpaper.WallPaperBean;
-import com.example.bingwallpaper.inter.OnRetrofits;
-import com.example.bingwallpaper.inter.contract.MainContract;
+import com.example.bingwallpaper.inter.contract.WarpContract;
 import com.example.bingwallpaper.util.AppUtil;
 
 import retrofit2.Call;
@@ -17,11 +16,11 @@ import retrofit2.Response;
  *
  * @author
  */
-public class MainModel implements MainContract.Model {
+public class WarpModel implements WarpContract.Model {
 
-    private MainContract.Presenter presenter;
+    private WarpContract.Presenter presenter;
 
-    public MainModel(MainContract.Presenter presenter) {
+    public WarpModel(WarpContract.Presenter presenter) {
         this.presenter = presenter;
     }
 

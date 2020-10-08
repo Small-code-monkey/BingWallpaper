@@ -1,9 +1,7 @@
-package com.example.bingwallpaper.inter.presenter;
+package com.example.bingwallpaper.inter;
 
 import com.example.bingwallpaper.WallPaperBean;
-import com.example.bingwallpaper.inter.OnRetrofits;
-import com.example.bingwallpaper.inter.contract.MainContract;
-import com.example.bingwallpaper.inter.model.MainModel;
+import com.example.bingwallpaper.inter.contract.WarpContract;
 
 import java.util.List;
 
@@ -13,14 +11,14 @@ import java.util.List;
  *
  * @author
  */
-public class MainPresenter implements MainContract.Presenter, OnRetrofits {
+public class WarpPresenter implements WarpContract.Presenter, OnRetrofits {
 
-    private MainContract.View view;
-    private MainContract.Model model;
+    private WarpContract.View view;
+    private WarpContract.Model model;
 
-    public MainPresenter(MainContract.View view) {
+    public WarpPresenter(WarpContract.View view) {
         this.view = view;
-        model = new MainModel(this);
+        model = new WarpModel(this);
     }
 
     /**

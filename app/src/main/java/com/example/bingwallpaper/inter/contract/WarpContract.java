@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author
  */
-public interface MainContract {
+public interface WarpContract {
     interface Model {
         /**
          * 实体请求数据

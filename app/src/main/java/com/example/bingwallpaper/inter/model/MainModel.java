@@ -2,19 +2,14 @@ package com.example.bingwallpaper.inter.model;
 
 import android.util.Log;
 
-import com.example.bingwallpaper.baen.WallPaperBean;
-import com.example.bingwallpaper.base.BaseApplication;
+import com.example.bingwallpaper.WallPaperBean;
 import com.example.bingwallpaper.inter.OnRetrofits;
 import com.example.bingwallpaper.inter.contract.MainContract;
-import com.example.bingwallpaper.protocol.BaseProtocol;
 import com.example.bingwallpaper.util.AppUtil;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * MainActivity M层
@@ -39,14 +34,7 @@ public class MainModel implements MainContract.Model {
      */
     @Override
     public void getWallPaper(int pageSize, int pageNum, OnRetrofits onRetrofit) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .baseUrl(BaseApplication.dataUrl)
-                .build();
-        BaseProtocol wallPaperProtocol = retrofit.create(BaseProtocol.class);
-        Call<WallPaperBean> wallPaperBeanCall = wallPaperProtocol.getWallPaperData(pageSize, pageNum);
-        wallPaperBeanCall.enqueue(new Callback<WallPaperBean>() {
+        AppUtil.getBasisProtocol().getWallPaperData(pageSize, pageNum).enqueue(new Callback<WallPaperBean>() {
             @Override
             public void onResponse(Call<WallPaperBean> call, Response<WallPaperBean> response) {
                 Log.d("TAG", "----->" + response.raw());

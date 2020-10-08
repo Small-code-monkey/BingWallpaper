@@ -1,6 +1,6 @@
 package com.example.bingwallpaper.inter.presenter;
 
-import com.example.bingwallpaper.baen.WallPaperBean;
+import com.example.bingwallpaper.WallPaperBean;
 import com.example.bingwallpaper.inter.OnRetrofits;
 import com.example.bingwallpaper.inter.contract.MainContract;
 import com.example.bingwallpaper.inter.model.MainModel;

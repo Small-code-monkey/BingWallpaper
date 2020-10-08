@@ -1,6 +1,6 @@
 package com.example.bingwallpaper.protocol;
 
-import com.example.bingwallpaper.baen.WallPaperBean;
+import com.example.bingwallpaper.WallPaperBean;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

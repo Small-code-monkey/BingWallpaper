@@ -1,4 +1,4 @@
-package com.example.bingwallpaper.baen;
+package com.example.bingwallpaper;
 
 import android.os.Parcel;
 import android.os.Parcelable;

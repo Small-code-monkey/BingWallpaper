@@ -1,11 +1,11 @@
 package com.example.bingwallpaper.util;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import com.example.bingwallpaper.base.BaseApplication;
+import com.example.bingwallpaper.protocol.BaseProtocol;
 
-import com.example.bingwallpaper.R;
-import com.hjq.toast.ToastUtils;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**
@@ -17,22 +17,16 @@ import com.hjq.toast.ToastUtils;
 public class AppUtil {
 
     /**
-     * 判断是否有网络连接
+     * 获取Protocol
      *
-     * @param context
      * @return
      */
-    public static boolean isNetworkConnected(Context context) {
-        if (context != null) {
-            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
-            if (mNetworkInfo != null) {
-                return mNetworkInfo.isAvailable();
-            }
-        }
-        ToastUtils.show(R.string.null_intent);
-        return false;
+    public static BaseProtocol getBasisProtocol() {
+        return new Retrofit.Builder()
+                .baseUrl(BaseApplication.dataUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build().create(BaseProtocol.class);
     }
 
     /**

@@ -1,19 +1,16 @@
 package com.example.bingwallpaper;
 
-import android.view.Menu;
-import android.view.MenuItem;
-
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bingwallpaper.adapter.WallPaperAdapter;
-import com.example.bingwallpaper.baen.WallPaperBean;
 import com.example.bingwallpaper.base.BaseActivity;
 import com.example.bingwallpaper.inter.contract.MainContract;
 import com.example.bingwallpaper.inter.presenter.MainPresenter;
-import com.example.bingwallpaper.util.AppUtil;
-import com.hjq.toast.ToastUtils;
+import com.example.bingwallpaper.view.WrapRecyclerView;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -26,10 +23,14 @@ import butterknife.BindView;
  */
 public class MainActivity extends BaseActivity implements MainContract.View {
 
-    @BindView(R.id.re_view)
-    RecyclerView reView;
+    @BindView(R.id.wr_wrap)
+    WrapRecyclerView wrWrap;
+    @BindView(R.id.sm_wrap)
+    SmartRefreshLayout smWrap;
 
     private int pageNum = 1;
+    private List<WallPaperBean.DataBean.ItemBean> itemBeans;
+    private WallPaperAdapter wallPaperAdapter;
 
     /**
      * 初始化布局
@@ -46,39 +47,30 @@ public class MainActivity extends BaseActivity implements MainContract.View {
      */
     @Override
     protected void initData() {
-        if (AppUtil.isNetworkConnected(context)) {
-            MainContract.Presenter presenter = new MainPresenter(this);
-            presenter.methodData();
-        } else {
-            endLoading();
-        }
-    }
+        itemBeans = new ArrayList<>();
+        wallPaperAdapter = new WallPaperAdapter(R.layout.item_wallpaper, itemBeans);
+        wrWrap.setAdapter(wallPaperAdapter);
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+        //获取数据
+        MainContract.Presenter presenter = new MainPresenter(this);
+        presenter.methodData();
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu1:
-                if (1 != pageNum) {
-                    pageNum--;
-                    initData();
-                } else {
-                    ToastUtils.show("☞当前第一页");
-                }
-                break;
-            case R.id.menu2:
+        smWrap.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 pageNum++;
-                initData();
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
+                presenter.methodData();
+                smWrap.finishLoadMore();
+            }
+
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                pageNum = 1;
+                itemBeans.clear();
+                presenter.methodData();
+                smWrap.finishRefresh();
+            }
+        });
     }
 
     /**
@@ -108,7 +100,8 @@ public class MainActivity extends BaseActivity implements MainContract.View {
      */
     @Override
     public void getWallPaper(List<WallPaperBean.DataBean.ItemBean> dataBeans) {
-        reView.setAdapter(new WallPaperAdapter(R.layout.item_wallpaper, dataBeans));
+        itemBeans.addAll(dataBeans);
+        wallPaperAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -116,7 +109,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
      */
     @Override
     public void startLoading() {
-        showLoading();
     }
 
     /**
@@ -124,6 +116,5 @@ public class MainActivity extends BaseActivity implements MainContract.View {
      */
     @Override
     public void endLoading() {
-        showComplete();
     }
 }

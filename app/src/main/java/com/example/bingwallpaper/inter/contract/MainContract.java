@@ -1,6 +1,6 @@
 package com.example.bingwallpaper.inter.contract;
 
-import com.example.bingwallpaper.baen.WallPaperBean;
+import com.example.bingwallpaper.WallPaperBean;
 import com.example.bingwallpaper.inter.OnRetrofits;
 
 import java.util.List;
